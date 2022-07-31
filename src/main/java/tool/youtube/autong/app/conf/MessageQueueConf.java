@@ -14,7 +14,7 @@ public class MessageQueueConf {
     private Queue<YoutubeCommentsModel> messageQueue = new LinkedBlockingQueue<YoutubeCommentsModel>();
 
     @Bean
-    public Queue<YoutubeCommentsModel> getMessagQueue() {
+    public Queue<YoutubeCommentsModel> getMessageQueue() {
         return messageQueue;
     }
 }

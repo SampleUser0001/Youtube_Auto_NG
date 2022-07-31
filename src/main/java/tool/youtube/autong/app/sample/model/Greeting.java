@@ -1,4 +1,4 @@
-package tool.youtube.autong.app.sample;
+package tool.youtube.autong.app.sample.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

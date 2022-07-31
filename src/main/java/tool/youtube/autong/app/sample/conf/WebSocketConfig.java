@@ -1,4 +1,4 @@
-package tool.youtube.autong.app.sample;
+package tool.youtube.autong.app.sample.conf;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;

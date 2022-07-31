@@ -7,9 +7,11 @@ import java.util.Queue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+
+import tool.youtube.autong.app.sample.model.zip.ZipResults;
+import tool.youtube.autong.app.sample.service.ZipService;
 
 @Component
 public class YoutubeCommentGetterComponent {
@@ -27,6 +29,18 @@ public class YoutubeCommentGetterComponent {
 
         log.info(now);
         sampleQueue.add(now);
+    }
+
+    @Autowired
+    ZipService zipService;
+
+    @Autowired
+    Queue<ZipResults> zipQueue;
+
+    @Scheduled(fixedDelay = 10000)
+    public void putZipCode() {
+        ZipResults results =zipService.getZipResults("2500011");
+        zipQueue.add(results);
     }
 
 }

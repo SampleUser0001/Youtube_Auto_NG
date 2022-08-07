@@ -1,4 +1,4 @@
-package tool.youtube.autong.app.model.comment;
+package tool.youtube.autong.app.model.youtube.comment;
 
 import java.util.List;
 

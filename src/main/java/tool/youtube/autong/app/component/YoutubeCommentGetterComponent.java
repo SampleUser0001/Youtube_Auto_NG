@@ -10,8 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import tool.youtube.autong.app.sample.model.zip.ZipResults;
-import tool.youtube.autong.app.sample.service.ZipService;
+import tool.youtube.autong.app.service.GetYoutubeCommentService;
 
 @Component
 public class YoutubeCommentGetterComponent {
@@ -22,25 +21,19 @@ public class YoutubeCommentGetterComponent {
     private Queue<String> sampleQueue;
 
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+
+    @Autowired
+    private GetYoutubeCommentService commentService;
     
-    @Scheduled(fixedDelay = 5000)
+    @Scheduled(fixedDelay = 8000)
     public void printTime() {
+        final String videoId = "RQH2UhyjWHo";
+        commentService.addMessageToQueue(videoId);
+
         String now = dateFormat.format(new Date());
 
         log.info(now);
         sampleQueue.add(now);
-    }
-
-    @Autowired
-    ZipService zipService;
-
-    @Autowired
-    Queue<ZipResults> zipQueue;
-
-    @Scheduled(fixedDelay = 10000)
-    public void putZipCode() {
-        ZipResults results =zipService.getZipResults("2500011");
-        zipQueue.add(results);
     }
 
 }

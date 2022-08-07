@@ -6,7 +6,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import tool.youtube.autong.app.model.comment.YoutubeCommentsModel;
+import tool.youtube.autong.app.model.youtube.comment.YoutubeCommentsModel;
 
 @Configuration
 public class MessageQueueConf {

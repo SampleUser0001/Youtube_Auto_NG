@@ -1,5 +1,6 @@
 package tool.youtube.autong.app.sample.component;
 
+import java.util.Map;
 import java.util.Queue;
 
 import org.slf4j.Logger;
@@ -9,6 +10,8 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import tool.youtube.autong.app.model.youtube.comment.YoutubeCommentItemModel;
+import tool.youtube.autong.app.model.youtube.comment.YoutubeCommentsModel;
 import tool.youtube.autong.app.sample.model.Greeting;
 import tool.youtube.autong.app.sample.model.zip.ZipResults;
 
@@ -42,8 +45,30 @@ public class QueueReader {
         ZipResults zipResults = zipQueue.poll();
         if(zipResults != null) {
             log.info(zipResults.toString());
-            // TODO 他のModelを送信できるようにする
             simpMessageTemplate.convertAndSend(DESTINATION, new Greeting(zipResults.toString()));
         }
     }
+
+    @Autowired
+    private Queue<YoutubeCommentsModel> youtubeCommentQueue;
+    @Autowired
+    private Map<String, YoutubeCommentItemModel> youtubeCommentMap;
+    @Scheduled(fixedDelay = 1)
+    public void sendYoutubeComments() throws Exception {
+        YoutubeCommentsModel comments = youtubeCommentQueue.poll();
+        if(comments != null) {
+            comments.getItems()
+                    .stream()
+                    .distinct()
+                    .forEach(comment -> {
+                        if(!youtubeCommentMap.containsKey(comment.getId())) {
+                            youtubeCommentMap.put(comment.getId(), comment);
+                            // TODO 他のModelを送信できるようにする
+                            simpMessageTemplate.convertAndSend(DESTINATION, comment);
+                        }
+                    });
+            
+        }
+    }
+
 }

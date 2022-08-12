@@ -25,9 +25,6 @@ public class GetYoutubeCommentService {
     private RestTemplate restTemplate;
 
     @Autowired
-    private Queue<YoutubeCommentsModel> messageQueue;
-
-    @Autowired
     private YoutubeApiProperties properties;
 
     @Autowired
@@ -36,7 +33,7 @@ public class GetYoutubeCommentService {
     @Autowired
     private GetYoutubeInfoService youtubeInfoService;
 
-    public void addMessageToQueue(String videoId) {
+    public YoutubeCommentsModel getMessage(String videoId) {
         Map<String, String> commentParam = commentParamMap.computeIfAbsent(videoId, key -> {
             YoutubeVideoInfo videoInfo = youtubeInfoService.getYoutubeVideoInfo(videoId);
 
@@ -50,6 +47,6 @@ public class GetYoutubeCommentService {
 
         YoutubeCommentsModel comments = restTemplate.getForObject(LIVE_CHAT_MESSAGE, YoutubeCommentsModel.class, commentParam);
         log.info(comments.toString());
-        messageQueue.add(comments);
+        return comments;
     }
 }

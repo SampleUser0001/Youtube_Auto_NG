@@ -10,6 +10,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
+/**
+ * RestTemplateインスタンスを生成する。
+ */
 @Configuration
 public class RestTemplateConf {
 
